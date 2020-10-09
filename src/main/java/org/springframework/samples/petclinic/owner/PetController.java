@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Juergen Hoeller
@@ -41,11 +42,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 class PetController {
 
     private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
-    private final PetRepository pets;
+    @Autowired
+    private final PetService pets;
     private final OwnerRepository owners;
 
+    
     @Autowired
-    public PetController(PetRepository pets, OwnerRepository owners) {
+    public PetController(PetService pets, OwnerRepository owners) {
         this.pets = pets;
         this.owners = owners;
     }
@@ -96,7 +99,7 @@ class PetController {
     @RequestMapping(value = "/pets/{petId}/edit", method = RequestMethod.GET)
     public String initUpdateForm(@PathVariable("petId") int petId, ModelMap model) {
         Pet pet = this.pets.findById(petId);
-        model.put("pet", pet);
+        model.addAttribute(pet);
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
     }
 
@@ -112,5 +115,6 @@ class PetController {
             return "redirect:/owners/{ownerId}";
         }
     }
+    
 
 }

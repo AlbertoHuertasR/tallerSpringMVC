@@ -23,7 +23,7 @@ public class JDBCApplication {
 		Connection connection = null;
 		Statement statement = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/petclinic","root", "root");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/petclinic_mvc?serverTimezone=UTC","root", "root");
 			if (connection != null)
 				System.out.println("Conexión establecida");
 			
